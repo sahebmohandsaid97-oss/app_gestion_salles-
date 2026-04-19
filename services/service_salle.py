@@ -17,3 +17,15 @@ class ServiceSalle:
         self.dao_salle.insert_salle(salle)
 
         return True, "Salle ajoutee avec succes"
+
+    def modifier_salle(self, salle):
+
+        if not salle.code or not salle.libelle or not salle.type or not salle.capacite:
+            return False, "Toutes les informations sont obligatoires"
+
+        if salle.capacite < 1:
+            return False, "La capacite doit etre >= 1"
+
+        self.dao_salle.update_salle(salle)
+
+        return True, "Salle modifiee avec succes"
