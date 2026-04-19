@@ -1,13 +1,15 @@
-class Salle:
-    def __init__(self, code, libelle, type, capacite):
-        self.code = code
-        self.libelle = libelle
-        self.type = type
-        self.capacite = capacite
+import customtkinter as ctk
+from services.service_salle import ServiceSalle
+from models.salle import Salle
 
-    def afficher_infos(self):
-        print(f"Code : {self.code}")
-        print(f"Libellé : {self.libelle}")
-        print(f"Type : {self.type}")
-        print(f"Capacité : {self.capacite}")
+
+class ViewSalle(ctk.CTk):
+
+    def __init__(self):
+        super().__init__()
+
+        self.title("Gestion des salles")
+        self.geometry("600x400")
+
+        self.service_salle = ServiceSalle()
 
