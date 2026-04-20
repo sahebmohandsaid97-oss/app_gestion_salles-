@@ -9,16 +9,12 @@ class ViewSalle(ctk.CTk):
     def __init__(self):
         super().__init__()
 
-        # Configuration fenêtre
         self.title("Gestion des salles")
         self.geometry("700x500")
 
-        # Service
         self.service_salle = ServiceSalle()
 
-        # =========================
         # Cadre Informations Salle
-        # =========================
         self.frame_infos = ctk.CTkFrame(self)
         self.frame_infos.pack(pady=10)
 
@@ -38,9 +34,7 @@ class ViewSalle(ctk.CTk):
         self.entry_capacite = ctk.CTkEntry(self.frame_infos)
         self.entry_capacite.grid(row=3, column=1)
 
-        # =========================
         # Cadre Actions
-        # =========================
         self.frame_actions = ctk.CTkFrame(self)
         self.frame_actions.pack(pady=10)
 
@@ -68,9 +62,7 @@ class ViewSalle(ctk.CTk):
             command=self.rechercher_salle
         ).grid(row=0, column=3, padx=5)
 
-        # =========================
         # Cadre Liste des salles
-        # =========================
         self.cadreList = ctk.CTkFrame(self, corner_radius=10, width=400)
         self.cadreList.pack(pady=10, padx=10)
 
@@ -94,9 +86,8 @@ class ViewSalle(ctk.CTk):
 
         self.treeList.pack(expand=True, fill="both", padx=10, pady=10)
 
-    # =========================
-    # Méthodes interface
-    # =========================
+        # Étape 8.3
+        self.lister_salles()
 
     def ajouter_salle(self):
 
