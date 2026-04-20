@@ -19,7 +19,6 @@ class ViewSalle(ctk.CTk):
         # =========================
         # Cadre Informations Salle
         # =========================
-
         self.frame_infos = ctk.CTkFrame(self)
         self.frame_infos.pack(pady=10)
 
@@ -40,9 +39,8 @@ class ViewSalle(ctk.CTk):
         self.entry_capacite.grid(row=3, column=1)
 
         # =========================
-        # Cadre Actions (Boutons)
+        # Cadre Actions
         # =========================
-
         self.frame_actions = ctk.CTkFrame(self)
         self.frame_actions.pack(pady=10)
 
@@ -71,9 +69,8 @@ class ViewSalle(ctk.CTk):
         ).grid(row=0, column=3, padx=5)
 
         # =========================
-        # Cadre Liste des salles (Étape 8.1)
+        # Cadre Liste des salles
         # =========================
-
         self.cadreList = ctk.CTkFrame(self, corner_radius=10, width=400)
         self.cadreList.pack(pady=10, padx=10)
 
@@ -83,15 +80,13 @@ class ViewSalle(ctk.CTk):
             show="headings"
         )
 
-        # En-têtes colonnes
-
+        # En-têtes
         self.treeList.heading("code", text="CODE")
         self.treeList.heading("libelle", text="LIBELLÉ")
         self.treeList.heading("type", text="TYPE")
         self.treeList.heading("capacite", text="CAPACITÉ")
 
-        # Largeur colonnes
-
+        # Largeur des colonnes
         self.treeList.column("code", width=50)
         self.treeList.column("libelle", width=150)
         self.treeList.column("type", width=100)
@@ -100,7 +95,7 @@ class ViewSalle(ctk.CTk):
         self.treeList.pack(expand=True, fill="both", padx=10, pady=10)
 
     # =========================
-    # Méthodes boutons (Étape 7)
+    # Méthodes interface
     # =========================
 
     def ajouter_salle(self):
@@ -128,17 +123,14 @@ class ViewSalle(ctk.CTk):
     def supprimer_salle(self):
 
         code = self.entry_code.get()
-
         self.service_salle.supprimer_salle(code)
 
     def rechercher_salle(self):
 
         code = self.entry_code.get()
-
         salle = self.service_salle.rechercher_salle(code)
 
         if salle:
-
             self.entry_libelle.delete(0, "end")
             self.entry_type.delete(0, "end")
             self.entry_capacite.delete(0, "end")
@@ -146,3 +138,12 @@ class ViewSalle(ctk.CTk):
             self.entry_libelle.insert(0, salle.libelle)
             self.entry_type.insert(0, salle.type)
             self.entry_capacite.insert(0, salle.capacite)
+
+    def lister_salles(self):
+
+        self.treeList.delete(*self.treeList.get_children())
+
+        liste = self.service_salle.recuperer_salles()
+
+        for s in liste:
+            self.treeList.insert("", "end", values=(s.code, s.libelle, s.type, s.capacite))
