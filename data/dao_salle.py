@@ -6,6 +6,7 @@ from models.salle import Salle
 class DataSalle:
 
     def get_connection(self):
+
         with open("data/config.json", "r", encoding="utf-8") as fichier:
             config = json.load(fichier)
 
@@ -20,6 +21,7 @@ class DataSalle:
 
 
     def insert_salle(self, salle):
+
         connexion = self.get_connection()
         curseur = connexion.cursor()
 
@@ -28,71 +30,106 @@ class DataSalle:
         VALUES (%s, %s, %s, %s)
         """
 
-        valeurs = (salle.code, salle.libelle, salle.type, salle.capacite)
+        valeurs = (
+            salle.code,
+            salle.libelle,
+            salle.type,
+            salle.capacite
+        )
 
         curseur.execute(requete, valeurs)
         connexion.commit()
 
         curseur.close()
         connexion.close()
+
+
     def update_salle(self, salle):
+
         connexion = self.get_connection()
         curseur = connexion.cursor()
 
         requete = """
         UPDATE salle
-        SET libelle = %s, type = %s, capacite = %s
-        WHERE code = %s
+        SET libelle=%s, type=%s, capacite=%s
+        WHERE code=%s
         """
-        valeurs = (salle.libelle, salle.type, salle.capacite, salle.code)
+
+        valeurs = (
+            salle.libelle,
+            salle.type,
+            salle.capacite,
+            salle.code
+        )
 
         curseur.execute(requete, valeurs)
         connexion.commit()
 
         curseur.close()
         connexion.close()
+
+
     def delete_salle(self, code):
+
         connexion = self.get_connection()
         curseur = connexion.cursor()
 
-        requete = "DELETE FROM salle WHERE code = %s"
-        valeurs = (code,)
+        requete = "DELETE FROM salle WHERE code=%s"
 
-        curseur.execute(requete, valeurs)
+        curseur.execute(requete, (code,))
         connexion.commit()
 
         curseur.close()
         connexion.close()
+
+
     def get_salle(self, code):
+
         connexion = self.get_connection()
         curseur = connexion.cursor()
 
-        requete = "SELECT code, libelle, type, capacite FROM salle WHERE code = %s"
-        valeurs = (code,)
+        requete = "SELECT * FROM salle WHERE code=%s"
 
-        curseur.execute(requete, valeurs)
+        curseur.execute(requete, (code,))
         resultat = curseur.fetchone()
 
         curseur.close()
         connexion.close()
 
         if resultat:
-            return Salle(resultat[0], resultat[1], resultat[2], resultat[3])
+            return Salle(
+                resultat[0],
+                resultat[1],
+                resultat[2],
+                resultat[3]
+            )
+
         return None
+
+
     def get_salles(self):
+
         connexion = self.get_connection()
         curseur = connexion.cursor()
 
-        requete = "SELECT code, libelle, type, capacite FROM salle"
-        curseur.execute(requete)
+        curseur.execute("SELECT * FROM salle")
+
         resultats = curseur.fetchall()
+
+        salles = []
+
+        for ligne in resultats:
+
+            salle = Salle(
+                ligne[0],
+                ligne[1],
+                ligne[2],
+                ligne[3]
+            )
+
+            salles.append(salle)
 
         curseur.close()
         connexion.close()
-
-        salles = []
-        for resultat in resultats:
-            salle = Salle(resultat[0], resultat[1], resultat[2], resultat[3])
-            salles.append(salle)
 
         return salles
