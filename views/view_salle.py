@@ -72,13 +72,11 @@ class ViewSalle(ctk.CTk):
             show="headings"
         )
 
-        # En-têtes colonnes
         self.treeList.heading("code", text="CODE")
         self.treeList.heading("libelle", text="LIBELLÉ")
         self.treeList.heading("type", text="TYPE")
         self.treeList.heading("capacite", text="CAPACITÉ")
 
-        # Largeur colonnes
         self.treeList.column("code", width=50)
         self.treeList.column("libelle", width=150)
         self.treeList.column("type", width=100)
@@ -88,10 +86,6 @@ class ViewSalle(ctk.CTk):
 
         # Étape 8.3
         self.lister_salles()
-
-    # =========================
-    # Ajouter salle
-    # =========================
 
     def ajouter_salle(self):
 
@@ -107,10 +101,6 @@ class ViewSalle(ctk.CTk):
         # Étape 8.4
         self.lister_salles()
 
-    # =========================
-    # Modifier salle
-    # =========================
-
     def modifier_salle(self):
 
         salle = Salle(
@@ -122,18 +112,13 @@ class ViewSalle(ctk.CTk):
 
         self.service_salle.modifier_salle(salle)
 
-    # =========================
-    # Supprimer salle
-    # =========================
+        # Étape 8.5
+        self.lister_salles()
 
     def supprimer_salle(self):
 
         code = self.entry_code.get()
         self.service_salle.supprimer_salle(code)
-
-    # =========================
-    # Rechercher salle
-    # =========================
 
     def rechercher_salle(self):
 
@@ -141,7 +126,6 @@ class ViewSalle(ctk.CTk):
         salle = self.service_salle.rechercher_salle(code)
 
         if salle:
-
             self.entry_libelle.delete(0, "end")
             self.entry_type.delete(0, "end")
             self.entry_capacite.delete(0, "end")
@@ -149,10 +133,6 @@ class ViewSalle(ctk.CTk):
             self.entry_libelle.insert(0, salle.libelle)
             self.entry_type.insert(0, salle.type)
             self.entry_capacite.insert(0, salle.capacite)
-
-    # =========================
-    # Lister salles
-    # =========================
 
     def lister_salles(self):
 
